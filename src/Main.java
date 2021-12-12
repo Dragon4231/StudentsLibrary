@@ -10,15 +10,28 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
+        System.out.println("Требуется авторизация для дальнеших действий(Введите 0 для выхода).");
+        String sign;
+        sign = scanner.nextLine(); // password = iwanttexas
+        Student studentIn = new Student();
+        studentIn = studentIn.getStudent(0);
+        if((sign.hashCode()*33-555) == studentIn.age()){
+            System.out.println("Вход успешно выполнен");
+        }else{
+            System.out.println("Неверный пароль");
+            System.exit(0);
+        };
         while(true){
             System.out.println("========================");
             System.out.println("Консольное меню.");
             System.out.println("Введите 0 для выхода из приложения.");
             System.out.println("Введите 1 для добавления студента.");
             System.out.println("Введите 2 для изменения информации о студенте.");
+            System.out.println("Введите 3 для вывода информации о студентах.");
+            System.out.println("Введите 4 для вывода информации о студенте по студенческому.");
+            System.out.println("Введите 5 для удаления информации о студенте по студенческому.");
             System.out.println("========================");
             int action = scanner.nextInt();
-            clearScreen();
             switch (action){
                 case 0:
                     System.exit(0);
@@ -61,13 +74,24 @@ public class Main {
                     student.updateInfoInBD(act,mean,find);
                     break;
                 case 3:
+                    Student student1 = new Student();
+                    student1.writeAllStudents();
+                    break;
                 case 4:
+                    System.out.println("Введите номер студенческого.");
+                    int number = scanner.nextInt();
+                    Student student2 = new Student();
+                    student2 = student2.getStudent(number);
+                    if(student2.getId() == 0) throw new Exception("error, id not found");
+                    System.out.println(student2);
+                    break;
+                case 5:
+                    System.out.println("Введите номер студенческого для удаления.");
+                    int temp = scanner.nextInt();
+                    Student student3 = new Student();
+                    student3.deleteStudent(temp);
+                    break;
             }
-        }
-    }
-    public static void clearScreen() {
-        for(int i = 0; i < 60; i++){
-            System.out.println();
         }
     }
 }

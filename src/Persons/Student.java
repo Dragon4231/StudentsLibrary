@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Student {
+
     int id, course, age, scholarship;
     double score;
     String name, faculty;
@@ -17,10 +18,15 @@ public class Student {
         return name;
     }
 
+    public int getId() {
+        return id;
+    }
+    public int age(){
+        return age;
+    };
     @Override
     public String toString() {
-        return "Student{" +
-                "id=" + id +
+        return "Student №" + id +
                 ", course=" + course +
                 ", age=" + age +
                 ", scholarship=" + scholarship +
@@ -162,6 +168,27 @@ public class Student {
             Exception exception;
             throw new Exception("error");
         }
+    }
+
+    public void writeAllStudents() throws SQLException {
+        Statement statement = con.createStatement();
+        String sql_send = "select * from student order by id";
+        ResultSet resultSet = statement.executeQuery(sql_send);
+        while (resultSet.next()) {
+            try{
+                Student st = new Student(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("faculty"), resultSet.getInt("course"), resultSet.getInt("scholarship"), resultSet.getDouble("score"));
+                System.out.println(st);
+            }catch (Exception e){
+
+            }
+        }
+    }
+
+    public void deleteStudent(int id) throws SQLException{
+        String sqlDelete = "DELETE from student where id = ?";
+        PreparedStatement preparedStatement = con.prepareStatement(sqlDelete);
+        preparedStatement.setInt(1,id);
+        preparedStatement.executeUpdate();
     }
 
 }
