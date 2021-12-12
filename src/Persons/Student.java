@@ -80,7 +80,7 @@ public class Student {
         return allStudents;
     }
 
-    public Student getStudent(int id) throws SQLException, ClassNotFoundException {
+    public Student getStudent(int id) throws Exception {
         String sql = "SELECT * FROM student WHERE id = ?";
         PreparedStatement preparedStatement = con.prepareStatement(sql);
         preparedStatement.setInt(1, id);
@@ -110,7 +110,8 @@ public class Student {
         preparedStatement.executeUpdate();
     }
 
-    public void deleteStudentFromBD(int id) throws SQLException {
+    public void deleteStudentFromBD(int id) throws Exception {
+        if(id == 0) throw new Exception("error id");
         String sql = "DELETE from student where id = ?";
         PreparedStatement preparedStatement = con.prepareStatement(sql);
         preparedStatement.setInt(1,id);
@@ -118,6 +119,7 @@ public class Student {
     }
 
     public void updateInfoInBD(String action,String meaning, int id) throws Exception {
+        if(id == 0) throw new Exception("error id");
         String sql = "";
         if( action.equals("name") ){
             sql = "update student set name = ? where id = ?";
@@ -176,6 +178,7 @@ public class Student {
         ResultSet resultSet = statement.executeQuery(sql_send);
         while (resultSet.next()) {
             try{
+                if(resultSet.getInt("id") == 0) continue;
                 Student st = new Student(resultSet.getInt("id"), resultSet.getString("name"), resultSet.getInt("age"), resultSet.getString("faculty"), resultSet.getInt("course"), resultSet.getInt("scholarship"), resultSet.getDouble("score"));
                 System.out.println(st);
             }catch (Exception e){
@@ -184,7 +187,8 @@ public class Student {
         }
     }
 
-    public void deleteStudent(int id) throws SQLException{
+    public void deleteStudent(int id) throws Exception {
+        if(id == 0) throw new Exception("error id");
         String sqlDelete = "DELETE from student where id = ?";
         PreparedStatement preparedStatement = con.prepareStatement(sqlDelete);
         preparedStatement.setInt(1,id);

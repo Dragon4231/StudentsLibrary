@@ -80,6 +80,10 @@ public class Main {
                 case 4:
                     System.out.println("Введите номер студенческого.");
                     int number = scanner.nextInt();
+                    if(number == 0){
+                        System.out.println("error id");
+                        System.exit(0);
+                    }
                     Student student2 = new Student();
                     student2 = student2.getStudent(number);
                     if(student2.getId() == 0) throw new Exception("error, id not found");
